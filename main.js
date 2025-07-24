@@ -14,48 +14,65 @@ async function getData() {
         const weatherData = await response.json()
         console.log(weatherData);
 
-        const cityName = document.createElement('p')
-        cityName.classList.add('city')
-        cityName.textContent = weatherData.name
-        data.appendChild(cityName)
+        const cityNameAndMainTemp = document.createElement('p')
+        cityNameAndMainTemp.classList.add('cityNameAndMainTemp')
+        cityNameAndMainTemp.textContent = `${weatherData.name} | ${weatherData.main.temp}°C`
+        data.appendChild(cityNameAndMainTemp)
 
-        const temp = document.createElement('p')
-        temp.classList.add('temp')
-        temp.textContent = weatherData.main.temp
-        data.appendChild(temp)
+        const weatherDescriptionContainer = document.createElement('div')
+        weatherDescriptionContainer.classList.add('weatherDescriptionContainer')
+        data.appendChild(weatherDescriptionContainer)
+
+        const iconCode = weatherData.weather[0].icon
+        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`
+        const iconImg = document.createElement('img')
+        iconImg.classList.add('icon')
+        iconImg.src = iconUrl
+        iconImg.alt = weatherData.weather[0].description
+        weatherDescriptionContainer.appendChild(iconImg)
+
+        const weatherDescription = document.createElement('p')
+        weatherDescription.classList.add('weather-description')
+        weatherDescription.textContent = weatherData.weather[0].description
+        weatherDescriptionContainer.appendChild(weatherDescription)
+
+
+        const otherTempData = document.createElement('div')
+        otherTempData.classList.add('otherTempData')
+        data.appendChild(otherTempData)
 
         const feelsLike = document.createElement('p')
-        feelsLike.classList.add('temp')
-        feelsLike.textContent = `feels like ${weatherData.main.feels_like}`
-        data.appendChild(feelsLike)
+        feelsLike.classList.add('feels-like')
+        feelsLike.textContent = `feels like ${weatherData.main.feels_like}°C`
+        otherTempData.appendChild(feelsLike)
 
         const minTempContainer = document.createElement('div')
         minTempContainer.classList.add('min-temp-container')
-        data.appendChild(minTempContainer)
-
-        const min = document.createElement('p')
-        min.classList.add('temp')
-        min.textContent = "min"
-        minTempContainer.appendChild(min)
+        otherTempData.appendChild(minTempContainer)
 
         const maxTempContainer = document.createElement('div')
         maxTempContainer.classList.add('max-temp-container')
-        data.appendChild(maxTempContainer)
+        otherTempData.appendChild(maxTempContainer)
 
         const max = document.createElement('p')
         max.classList.add('temp')
         max.textContent = "max"
         maxTempContainer.appendChild(max)
 
+        const min = document.createElement('p')
+        min.classList.add('temp')
+        min.textContent = "min"
+        minTempContainer.appendChild(min)
+
 
         const minTemp = document.createElement('p')
         minTemp.classList.add('temp')
-        minTemp.textContent = weatherData.main.temp_min
+        minTemp.textContent = `${weatherData.main.temp_min}°C`
         minTempContainer.appendChild(minTemp)
 
         const maxTemp = document.createElement('p')
         maxTemp.classList.add('temp')
-        maxTemp.textContent = weatherData.main.temp_max
+        maxTemp.textContent = `${weatherData.main.temp_max}°C`
         maxTempContainer.appendChild(maxTemp)
 
 
